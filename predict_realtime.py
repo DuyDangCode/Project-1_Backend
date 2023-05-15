@@ -1,7 +1,7 @@
 import functools
 import operator
 import os
-import cv2
+
 import time
 
 import numpy as np
@@ -203,34 +203,34 @@ class VideoDescriptionRealTime(object):
         :param caption: final caption
         :return:
         """
-        # 1. Initialize reading video object
-        cap1 = cv2.VideoCapture(os.path.join(self.test_path, 'video', filename))
-        cap2 = cv2.VideoCapture(os.path.join(self.test_path, 'video', filename))
-        caption = '[' + ' '.join(caption.split()[1:]) + ']'
-        # 2. Cycle through pictures
-        while cap1.isOpened():
-            ret, frame = cap2.read()
-            ret2, frame2 = cap1.read()
-            if ret:
-                imS = cv2.resize(frame, (480, 300))
-                cv2.putText(imS, caption, (100, 270), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0),
-                            2, cv2.LINE_4)
-                cv2.imshow("VIDEO CAPTIONING", imS)
-            if ret2:
-                imS = cv2.resize(frame, (480, 300))
-                cv2.imshow("ORIGINAL", imS)
-            else:
-                break
+        # # 1. Initialize reading video object
+        # cap1 = cv2.VideoCapture(os.path.join(self.test_path, 'video', filename))
+        # cap2 = cv2.VideoCapture(os.path.join(self.test_path, 'video', filename))
+        # caption = '[' + ' '.join(caption.split()[1:]) + ']'
+        # # 2. Cycle through pictures
+        # while cap1.isOpened():
+        #     ret, frame = cap2.read()
+        #     ret2, frame2 = cap1.read()
+        #     if ret:
+        #         imS = cv2.resize(frame, (480, 300))
+        #         cv2.putText(imS, caption, (100, 270), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0),
+        #                     2, cv2.LINE_4)
+        #         cv2.imshow("VIDEO CAPTIONING", imS)
+        #     if ret2:
+        #         imS = cv2.resize(frame, (480, 300))
+        #         cv2.imshow("ORIGINAL", imS)
+        #     else:
+        #         break
 
-            # Quit playing
-            key = cv2.waitKey(25)
-            if key == 27:  # Button esc
-                break
+        #     # Quit playing
+        #     key = cv2.waitKey(25)
+        #     if key == 27:  # Button esc
+        #         break
 
-        # 3. Free resources
-        cap1.release()
-        cap2.release()
-        cv2.destroyAllWindows()
+        # # 3. Free resources
+        # cap1.release()
+        # cap2.release()
+        # cv2.destroyAllWindows()
 
 
 def predictRealtime(choosed_file):
