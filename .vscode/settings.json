@@ -1,0 +1,7 @@
+{
+    "editor.formatOnPaste": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.formatOnSave": true,
+    "workbench.colorTheme": "Default Dark Modern",
+    "editor.fontWeight": "normal"
+}
