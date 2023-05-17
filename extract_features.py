@@ -27,7 +27,7 @@ def video_to_frames(video):
         count += 1
 
     cap.release()
-    cv2.destroyAllWindows()
+    #cv2.destroyAllWindows()
     return image_list
 
 
