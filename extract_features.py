@@ -11,8 +11,12 @@ import config
 def video_to_frames(video):
     path = os.path.join(config.test_path, 'temporary_images')
     if os.path.exists(path):
+        # neu temporary_images co thi xoa cai tree
         shutil.rmtree(path)
+
+     # neu
     os.makedirs(path)
+
     video_path = os.path.join(config.test_path, 'video', video)
     count = 0
     image_list = []
@@ -22,17 +26,20 @@ def video_to_frames(video):
         ret, frame = cap.read()
         if ret is False:
             break
-        cv2.imwrite(os.path.join(config.test_path, 'temporary_images', 'frame%d.jpg' % count), frame)
-        image_list.append(os.path.join(config.test_path, 'temporary_images', 'frame%d.jpg' % count))
+        cv2.imwrite(os.path.join(config.test_path,
+                    'temporary_images', 'frame%d.jpg' % count), frame)
+        image_list.append(os.path.join(config.test_path,
+                          'temporary_images', 'frame%d.jpg' % count))
         count += 1
 
     cap.release()
-    #cv2.destroyAllWindows()
+    # cv2.destroyAllWindows()
     return image_list
 
 
 def model_cnn_load():
-    model = VGG16(weights="imagenet", include_top=True, input_shape=(224, 224, 3))
+    model = VGG16(weights="imagenet", include_top=True,
+                  input_shape=(224, 224, 3))
     out = model.layers[-2].output
     model_final = Model(inputs=model.input, outputs=out)
     return model_final
@@ -51,26 +58,34 @@ def extract_features(video, model):
     :param model: the pretrained vgg16 model
     :return: numpy array of size 4096x80
     """
-    video_id = video.split(".")[0]
-    print(f'Processing video {video}')
+    # video_id = video.split(".")[0]
+    print(f'Extract features of video: {video}')
 
-    image_list = video_to_frames(video)
-    samples = np.round(np.linspace(
-        0, len(image_list) - 1, 80))
+    try:
+        image_list = video_to_frames(video)
+    except:
+        print("Err: Not split video to frames.")
+
+    samples = np.round(np.linspace(0, len(image_list) - 1, 80))
     image_list = [image_list[int(sample)] for sample in samples]
     images = np.zeros((len(image_list), 224, 224, 3))
+
     for i in range(len(image_list)):
         img = load_image(image_list[i])
         images[i] = img
+
     images = np.array(images)
     fc_feats = model.predict(images, batch_size=128)
     img_feats = np.array(fc_feats)
+
     # cleanup
     shutil.rmtree(os.path.join(config.test_path, 'temporary_images'))
-    outfile = os.path.join(config.test_path, 'feat', video + '.npy')
-    np.save(outfile, img_feats)
-    return img_feats
 
+    outfile = os.path.join(config.test_path, 'feat', video + '.npy')
+
+    np.save(outfile, img_feats)
+    print("Extract features DONE!!!")
+    return img_feats
 
 
 def extract_feats_pretrained_cnn():
@@ -84,14 +99,13 @@ def extract_feats_pretrained_cnn():
         os.mkdir(os.path.join(config.test_path, 'feat'))
 
     video_list = os.listdir(os.path.join(config.test_path, 'video'))
-    
-    #ًWhen running the script on Colab an item called '.ipynb_checkpoints' 
-    #is added to the beginning of the list causing errors later on, so the next line removes it.
-    #video_list.remove('.ipynb_checkpoints')
-    
+
+    # ًWhen running the script on Colab an item called '.ipynb_checkpoints'
+    # is added to the beginning of the list causing errors later on, so the next line removes it.
+    # video_list.remove('.ipynb_checkpoints')
+
     for video in video_list:
         extract_features(video, model)
-        
 
 
 if __name__ == "__main__":

@@ -1,7 +1,11 @@
 {
-    "editor.formatOnPaste": true,
-    "diffEditor.ignoreTrimWhitespace": false,
-    "editor.formatOnSave": true,
-    "workbench.colorTheme": "Default Dark Modern",
-    "editor.fontWeight": "normal"
+  "editor.formatOnPaste": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.formatOnSave": true,
+  "workbench.colorTheme": "Default Dark Modern",
+  "editor.fontWeight": "normal",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "python.formatting.provider": "none"
 }

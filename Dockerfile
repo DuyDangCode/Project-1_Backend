@@ -16,6 +16,6 @@ RUN apt install -y python3 python3-pip git
 RUN pip install numpy
 RUN pip install -r requirements.txt
 
-EXPOSE 80
 
+EXPOSE 80
 CMD flask run --host 0.0.0.0 -p 80

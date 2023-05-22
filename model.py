@@ -10,7 +10,8 @@ def inference_model():
     with open(os.path.join(config.save_model_path, 'tokenizer' + str(config.num_decoder_tokens)), 'rb') as file:
         tokenizer = joblib.load(file)
     # loading encoder model. This remains the same
-    inf_encoder_model = load_model(os.path.join(config.save_model_path, 'encoder_model.h5'))
+    inf_encoder_model = load_model(os.path.join(config.save_model_path, 'encoder_model.h5'), compile=False)
+    print("Load model DONE!!!")
 
     # inference decoder model loading
     decoder_inputs = Input(shape=(None, config.num_decoder_tokens))
